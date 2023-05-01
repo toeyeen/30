@@ -1,0 +1,32 @@
+:root{
+  --bg: #fff
+}
+:root[class="dark"]{
+  --bg: #0f0f0f
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html.dark {
+  background: #121212;
+}
+
+
+.box {
+  height: 400px;
+  width: 400px;
+}
+
+.box-description {
+  position: fixed;
+  top: calc(50% + 200px);
+  left: cal(50% -200px);
+  width: 400px;
+}
+
