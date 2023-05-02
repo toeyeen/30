@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { zxcvbn } from 'zxcvbn-typescript'
 import { useVuelidate } from '@vuelidate/core'
-import { email, minLength, required } from '@vuelidate/validators'
+import { email, helpers, minLength, required } from '@vuelidate/validators'
 
 // const {
 //   value: inputValue,
@@ -41,7 +41,12 @@ const FormRules = computed(() => ({
     },
     password: {
       required,
-      minLength: minLength(6),
+      minLength: helpers.withMessage(
+        ({
+          $params,
+        }) => `Must be greater than ${$params.min} characters`,
+        minLength(6),
+      ),
     },
   },
 }))
@@ -70,7 +75,7 @@ async function onSubmit(e: Event) {
 </script>
 
 <template>
-  <div class="mx-auto max-w-xs border text-center">
+  <div class="mx-auto max-w-xs text-center">
     <div id="sign-up">
       <span class="brand-logo block">DONA</span>
 
@@ -79,45 +84,46 @@ async function onSubmit(e: Event) {
       </h1>
 
       <form class="flex flex-col" @submit="onSubmit">
-        <FormInput
+        <BaseInput
           v-model="user.firstName"
           name="user.firstName" placeholder="First name" :error="{
             isAvailable: v$.user.firstName.$error,
             messages: v$.user.$errors,
-          }" @blur="v$.user.firstName.$touch()"
+          }" @blur="v$.user.firstName.$touch"
         />
 
-        <FormInput
+        <BaseInput
           v-model="user.lastName"
           name="user.lastName" placeholder="Last name" :error="{
             isAvailable: v$.user.lastName.$error,
             messages: v$.user.$errors,
-          }" @blur="v$.user.lastName.$touch()"
+          }" @blur="v$.user.lastName.$touch"
         />
 
-        <FormInput v-model="user.company" placeholder="Compnay (Optional)" />
+        <BaseInput v-model="user.company" placeholder="Compnay (Optional)" />
 
-        <FormInput
+        <BaseInput
           v-model="user.email" name="user.email" placeholder="Email" :error="{
             isAvailable: v$.user.email.$error,
             messages: v$.user.$errors,
-          }" @blur="v$.user.email.$touch()"
+          }" @blur="v$.user.email.$touch"
         />
-        <div class="relative">
-          <FormInput v-model="user.password" name="password" :validation-rules="{ required: true, min: 8 }" placeholder="Password" type="password" @blur="v$.user.password.$touch()" />
-          <small v-if="v$.user.password.$error" class="text-red-500">Password is required.</small>
-          <span class="i-carbon:view absolute right-2 top-25% w-6 inline-flex border fill-current text-gray" />
+        <base-input
+          v-model="user.password" name="user.password" :validation-rules="{ required: true, min: 8 }" placeholder="Password" type="password" :error="{
+            isAvailable: v$.user.password.$error,
+            messages: v$.user.$errors,
+          }" @blur="v$.user.password.$touch"
+        >
+          <template #extras>
+            <div v-if="user.password" class="hidden-text mx-1 mt-2 flex gap-1 text-left text-xs font-normal text-[#D62B20]">
+              <span class="i-carbon:idea inline-block" />
 
-          <div v-if="user.password" class="hidden-text mx-1 flex gap-1 text-left text-xs font-normal text-[#656976] -mt-1">
-            <span class="i-carbon:idea inline-block" />
+              <span>Time to hack:</span>
 
-            <span>Time to hack:</span>
-
-            <span class="font-semibold"> {{ response?.crackTime?.online_no_throttling_10_per_second }} </span>
-
-            {{ v$ }}
-          </div>
-        </div>
+              <span class="font-semibold"> {{ response?.crackTime?.online_no_throttling_10_per_second }} </span>
+            </div>
+          </template>
+        </base-input>
 
         <input type="submit" value="Sign up" class="my-4 min-h-12 cursor-pointer rounded-lg bg-[#5887DD] p-2 text-white">
       </form>
