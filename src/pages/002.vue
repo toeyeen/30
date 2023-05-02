@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import { zxcvbn } from 'zxcvbn-typescript'
-import * as Yup from 'yup'
-
-const SignUpSchema = Yup.object().shape({
-  firstname: Yup.string().required(),
-  lastname: Yup.string().required(),
-  email: Yup.string().email().required(),
-  password: Yup.string().min(6).required(),
-})
+import { useVuelidate } from '@vuelidate/core'
+import { email, minLength, required } from '@vuelidate/validators'
 
 // const {
 //   value: inputValue,
@@ -19,11 +13,43 @@ const SignUpSchema = Yup.object().shape({
 //   initialValue: props.value,
 // })
 
-const usersPassword = ref('')
+const user = reactive({
+  firstName: '',
+  lastName: '',
+  email: '',
+  company: '',
+  password: '',
+
+})
+
 const response = ref({})
 
-watch(usersPassword, () => {
-  const { crack_times_display, feedback } = zxcvbn(usersPassword.value!)
+const requiredNameLength = ref(2)
+
+const FormRules = computed(() => ({
+  user: {
+    firstName: {
+      required,
+      minLength: minLength(requiredNameLength.value),
+    },
+    lastName: {
+      required,
+    },
+    email: {
+      required,
+      email,
+    },
+    password: {
+      required,
+      minLength: minLength(6),
+    },
+  },
+}))
+
+const v$ = useVuelidate(FormRules, { user })
+
+watch(() => user.password, () => {
+  const { crack_times_display, feedback } = zxcvbn(user.password!)
 
   response.value = {
     crackTime: { ...crack_times_display },
@@ -31,16 +57,15 @@ watch(usersPassword, () => {
   }
 })
 
-function onSubmit(values: any) {
-  alert(JSON.stringify(values, null, 2))
-}
+async function onSubmit(e: Event) {
+  e.preventDefault()
+  const isFormCorrect = await v$.value.$validate()
 
-function onInvalidSubmit() {
-  const submitBtn = document.querySelector('.submit-btn')
-  submitBtn.classList.add('invalid')
-  setTimeout(() => {
-    submitBtn.classList.remove('invalid')
-  }, 1000)
+  console.log(isFormCorrect, 'sddd')
+  // you can show some extra alert to the user or just leave the each field to show it's `$errors`.
+  if (!isFormCorrect)
+    return
+  alert(JSON.stringify(values, null, 2))
 }
 </script>
 
@@ -53,21 +78,44 @@ function onInvalidSubmit() {
         Create an account
       </h1>
 
-      <form class="flex flex-col" :validation-schema="SignUpSchema" @invalid-submit="onInvalidSubmit" @submit="onSubmit">
-        <FormInput placeholder="First name" />
-        <FormInput placeholder="Last name" />
-        <FormInput placeholder="Compnay (Optional)" />
-        <FormInput placeholder="Email" />
+      <form class="flex flex-col" @submit="onSubmit">
+        <FormInput
+          v-model="user.firstName"
+          name="user.firstName" placeholder="First name" :error="{
+            isAvailable: v$.user.firstName.$error,
+            messages: v$.user.$errors,
+          }" @blur="v$.user.firstName.$touch()"
+        />
+
+        <FormInput
+          v-model="user.lastName"
+          name="user.lastName" placeholder="Last name" :error="{
+            isAvailable: v$.user.lastName.$error,
+            messages: v$.user.$errors,
+          }" @blur="v$.user.lastName.$touch()"
+        />
+
+        <FormInput v-model="user.company" placeholder="Compnay (Optional)" />
+
+        <FormInput
+          v-model="user.email" name="user.email" placeholder="Email" :error="{
+            isAvailable: v$.user.email.$error,
+            messages: v$.user.$errors,
+          }" @blur="v$.user.email.$touch()"
+        />
         <div class="relative">
-          <FormInput v-model="usersPassword" name="password" :validation-rules="{ required: true, min: 8 }" placeholder="Password" type="password" />
+          <FormInput v-model="user.password" name="password" :validation-rules="{ required: true, min: 8 }" placeholder="Password" type="password" @blur="v$.user.password.$touch()" />
+          <small v-if="v$.user.password.$error" class="text-red-500">Password is required.</small>
           <span class="i-carbon:view absolute right-2 top-25% w-6 inline-flex border fill-current text-gray" />
 
-          <div v-if="usersPassword" class="hidden-text mx-1 flex gap-1 text-left text-xs font-normal text-[#656976] -mt-1">
+          <div v-if="user.password" class="hidden-text mx-1 flex gap-1 text-left text-xs font-normal text-[#656976] -mt-1">
             <span class="i-carbon:idea inline-block" />
 
             <span>Time to hack:</span>
 
             <span class="font-semibold"> {{ response?.crackTime?.online_no_throttling_10_per_second }} </span>
+
+            {{ v$ }}
           </div>
         </div>
 

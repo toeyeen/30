@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { useField } from 'vee-validate'
+import type { ErrorObject } from '@vuelidate/core'
 
 type InputTypes = 'text' | 'password'
-interface ValidationRules {
-  required?: boolean
-  min?: number
+
+interface FormError {
+  isAvailable: boolean
+  messages: ErrorObject[]
 }
 
 const props = withDefaults(defineProps<{
   modelValue?: string
   placeholder: string
-  type: InputTypes
+  type?: InputTypes
   name?: string
-  validationRules?: ValidationRules
+  error?: FormError
 }>(), {
   modelValue: '',
   placeholder: 'Placeholder',
@@ -21,21 +22,25 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits(['update:modelValue'])
 
-const name = toRef(props, 'name')
-
-const { value, errorMessage, handleBlur } = useField(name, { required: true, min: 8 })
-
 function onInput(event: Event) {
   const target = (event.target) as HTMLInputElement
   emit('update:modelValue', target.value)
 }
+
+const showInputError = computed(() => {
+  const messages = props.error?.messages.find((message) => {
+    return message.$uid === `${props.name}-required`
+  })
+
+  return messages
+})
 </script>
 
 <template>
-  <label :for="props.name">
-    <input :type="props.type" :value="props.modelValue" :placeholder="props.placeholder" class="ctm-ring brand-input" @input="onInput" @blur="handleBlur">
-    <small class="text-red-500">
-      {{ errorMessage }}
+  <label :for="props.name" class="mb-4">
+    <input :type="props.type" :value="props.modelValue" :placeholder="props.placeholder" class="ctm-ring brand-input" @input="onInput">
+    <small v-if="error?.isAvailable" class="block text-left text-red-500">
+      {{ showInputError?.$message }}
     </small>
   </label>
 </template>
