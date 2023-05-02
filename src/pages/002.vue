@@ -65,12 +65,9 @@ watch(() => user.password, () => {
 async function onSubmit(e: Event) {
   e.preventDefault()
   const isFormCorrect = await v$.value.$validate()
-
-  console.log(isFormCorrect, 'sddd')
   // you can show some extra alert to the user or just leave the each field to show it's `$errors`.
   if (!isFormCorrect)
-    return
-  alert(JSON.stringify(values, null, 2))
+    return alert('Submitted')
 }
 </script>
 
@@ -127,6 +124,10 @@ async function onSubmit(e: Event) {
 
         <input type="submit" value="Sign up" class="my-4 min-h-12 cursor-pointer rounded-lg bg-[#5887DD] p-2 text-white">
       </form>
+
+      <button class="h-10 w-full rounded-lg bg-gray-200" @click="v$.$reset()">
+        Reset
+      </button>
 
       <small class="inline-block text-left text-base text-gray">
         By signing you agree to our

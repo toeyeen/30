@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { ErrorObject } from '@vuelidate/core'
+import cx from 'classnames'
 
 type InputTypes = 'text' | 'password'
+type InputSize = 'small' | 'normal' | 'large'
 
 interface FormError {
   isAvailable?: boolean
@@ -15,11 +17,12 @@ const props = withDefaults(defineProps<{
   type?: InputTypes
   name?: string
   error?: FormError
+  size?: InputSize
 }>(), {
   modelValue: '',
   placeholder: 'Placeholder',
   type: 'text',
-
+  size: 'normal',
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -50,6 +53,14 @@ const inputType = computed(() => {
     return 'text'
 })
 
+const inputStyle = computed(() => {
+  return cx({
+    'min-h-12 text-lg': props.size === 'large',
+    'max-h-8 text-sm': props.size === 'small',
+    'max-h-10': props.size === 'normal',
+  })
+})
+
 function reveal() {
   isRevealed.value = !isRevealed.value
 }
@@ -58,7 +69,7 @@ function reveal() {
 <template>
   <label :for="props.name" class="mb-4">
     <div class="relative">
-      <input v-bind="$attrs" :type="inputType" :value="props.modelValue" :placeholder="props.placeholder" class="brand-input" :class="error?.isAvailable ? 'input-error' : 'ctm-ring'" @input="onInput">
+      <input v-bind="$attrs" :type="inputType" :value="props.modelValue" :placeholder="props.placeholder" class="w-full rounded-md bg-gray-100 p-2 transition transition-shadow focus:bg-white hover:bg-gray-200 focus:outline-none placeholder:hover:text-gray-400" :class="[inputStyle, error?.isAvailable ? 'input-error' : 'ctm-ring']" @input="onInput">
       <span v-if="props.type === 'password' " class="absolute right-2 top-50% h-full w-6 inline-flex cursor-pointer border fill-current text-gray -translate-y-50%" :class="[isRevealed ? 'i-carbon:view-off' : 'i-carbon:view']" @click="reveal" />
     </div>
 
