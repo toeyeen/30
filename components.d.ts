@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BaseInput: typeof import('./src/components/BaseInput.vue')['default']
     FormInput: typeof import('./src/components/BaseInput.vue')['default']
+    Note: typeof import('./src/components/Note.vue')['default']
     Paper: typeof import('./src/components/Paper.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

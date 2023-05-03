@@ -12,6 +12,7 @@ const info: Work[] = [
     name: 'Plum',
     createdAt: '27/04',
     description: 'Plum was done by Anthony Fu, I liked the idea and  i thought to implement it',
+    source: 'https://github.com/antfu/plum-demo',
   },
   {
     name: 'Password Strength',

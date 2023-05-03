@@ -9,6 +9,7 @@ import { works } from '~/pages/works'
 // }
 
 const route = useRoute()
+const showNote = ref(false)
 
 const completedWorks = works.filter(work => !work.draft)
 
@@ -53,7 +54,7 @@ const jobs = computed(() => {
 </script>
 
 <template>
-  <div class="min-h-full w-full overflow-x-hidden">
+  <div class="min-h-full w-full overflow-hidden">
     <header class="fixed left-0 top-0 p-4">
       <router-link to="/">
         <span class="i-carbon:arrow-left inline-block h-6 w-6 cursor-pointer fill-current" />
@@ -71,10 +72,19 @@ const jobs = computed(() => {
           </span>
         </router-link>
       </ul>
-      <div class="nav-info align-center flex cursor-pointer justify-center ab-center">
+      <div class="nav-info align-center flex cursor-pointer justify-center ab-center" @click="showNote = true">
         <div class="center h-10 w-10 border border-1 px-2 pb-1 pt-1 text-lg">
           i
         </div>
+        <Note :show="showNote" @close="(value) => showNote = value">
+          <p>
+            {{ currentWork?.description }}
+          </p>
+
+          <a v-if="currentWork?.source" :href="currentWork?.source" target="_blank" class="cursor-pointer underline">
+            Source
+          </a>
+        </Note>
       </div>
       <p>
         {{ currentWork.no }}
