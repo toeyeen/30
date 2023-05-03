@@ -67,7 +67,7 @@ async function onSubmit(e: Event) {
   const isFormCorrect = await v$.value.$validate()
   // you can show some extra alert to the user or just leave the each field to show it's `$errors`.
   if (!isFormCorrect)
-    return alert('Submitted')
+    return console.log('Submitted')
 }
 </script>
 

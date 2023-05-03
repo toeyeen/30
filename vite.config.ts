@@ -8,6 +8,7 @@ import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import UnoCSS from 'unocss/vite'
 import VueMacros from 'unplugin-vue-macros/vite'
+import Layouts from 'vite-plugin-vue-layouts'
 
 export default defineConfig({
   resolve: {
@@ -50,6 +51,12 @@ export default defineConfig({
     // https://github.com/antfu/unocss
     // see uno.config.ts for config
     UnoCSS(),
+    Layouts(
+      {
+        layoutsDirs: './src/layouts',
+        defaultLayout: 'Default',
+      },
+    ),
   ],
 
   // https://github.com/vitest-dev/vitest
