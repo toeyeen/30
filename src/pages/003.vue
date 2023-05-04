@@ -5,7 +5,7 @@ const canvasEl = ref<HTMLCanvasElement | null>(null)
 
 onMounted(() => {
   const canvas = canvasEl.value!
-  const blockSize = 25
+  const blockSize = 20
   const rows = 20
   const columns = 20
 

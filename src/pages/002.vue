@@ -69,12 +69,22 @@ async function onSubmit(e: Event) {
   if (!isFormCorrect)
     return console.log('Submitted')
 }
+
+function resetForm() {
+  v$.value.$reset()
+
+  user.firstName = ''
+  user.lastName = ''
+  user.company = ''
+  user.email = ''
+  user.password = ''
+}
 </script>
 
 <template>
   <div class="mx-auto max-w-xs text-center">
     <div id="sign-up">
-      <span class="brand-logo block">DONA</span>
+      <span class="brand-logo block"> BETAWAVE </span>
 
       <h1 class="my-8">
         Create an account
@@ -112,7 +122,7 @@ async function onSubmit(e: Event) {
           }" @blur="v$.user.password.$touch"
         >
           <template #extras>
-            <div v-if="user.password" class="hidden-text mx-1 mt-2 flex gap-1 text-left text-xs font-normal text-[#D62B20]">
+            <div v-if="user.password" class="hidden-text mx-1 mt-2 flex gap-1 text-left text-xs font-normal text-[#a3a5ab]">
               <span class="i-carbon:idea inline-block" />
 
               <span>Time to hack:</span>
@@ -125,7 +135,7 @@ async function onSubmit(e: Event) {
         <input type="submit" value="Sign up" class="my-4 min-h-12 cursor-pointer rounded-lg bg-[#5887DD] p-2 text-white">
       </form>
 
-      <button class="h-10 w-full rounded-lg bg-gray-200" @click="v$.$reset()">
+      <button class="h-10 w-full rounded-lg bg-gray-200" @click="resetForm">
         Reset
       </button>
 

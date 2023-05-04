@@ -4,12 +4,13 @@
 
 <template>
   <div>
-    <header>Base Header</header>
+    <!-- <header>Base Header</header>
     <h1>Base Layout</h1>
-    <router-view />
     <footer>
       Base Footer
     </footer>
+  </div> -->
+    <router-view />
   </div>
 </template>
 

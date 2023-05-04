@@ -24,10 +24,21 @@ export default defineConfig({
     presetWebFonts({
       provider: 'google',
       fonts: {
-        sans: 'Montserrat',
+        sans: [{
+          name: 'Montserrat',
+          weights: [100, 200, 300, 400, 500, 600, 700, 800],
+        },
+        ],
         serif: 'DM Serif Display',
         mono: 'DM Mono',
+        fira: [
+          {
+            name: 'Fira Code',
+            weights: [100, 200, 300, 400, 500, 600, 700, 800],
+          },
+        ],
       },
+
     }),
   ],
 })

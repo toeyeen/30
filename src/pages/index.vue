@@ -5,26 +5,27 @@ const liveWorks = works.filter(work => !work.draft)
 </script>
 
 <template>
-  <div class="mx-auto max-h-full max-w-xl overflow-auto border border-red">
-    <h1 class="text-4xl">
-      Welcome to My 30 days project
-    </h1>
+  <div class="mx-auto max-h-full w-full overflow-auto px-2 py-8 font-fira centered -mt-20 md:max-w-lg">
+    <p class="mb-4 text-left text-2xl text-black">
+      30 Days
+    </p>
 
-    <p>30 Days </p>
-
-    <div class="grid grid-cols-1 md:grid-cols-2">
+    <div class="grid grid-cols-1 gap-x-4 md:grid-cols-2">
       <router-link
         v-for="work in liveWorks"
-        :key="work.no" class="font-gray block text-sm"
+        :key="work.no" class="block justify-self-start font-fira text-base hover:text-[#374151] hover:transition"
         :to="{
           path: `/${work.no}`,
         }"
       >
-        {{ work.no }}
+        <span class="opacity-75">
+          {{ work.no }}
+        </span>
+        <span class="ml-2 font-semibold">
+          {{ work.name }}
+        </span>
       </router-link>
     </div>
-
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique iure doloribus dolorum nisi, culpa aliquam alias maxime officiis eius enim distinctio dolore consequuntur deserunt corporis quibusdam atque quasi quos odit!</p>
   </div>
 </template>
 
@@ -32,6 +33,9 @@ const liveWorks = works.filter(work => !work.draft)
 
 </style>
 
+<!--
+Note: Remember how easy it is to use different layout in nuxt, we can achieve that with vue 3. The little code below this make it s possible for a user to make use a particular layout on a component/Page
+ -->
 <route lang="yaml">
 meta:
   layout: Base

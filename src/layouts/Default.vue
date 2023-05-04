@@ -63,7 +63,7 @@ const jobs = computed(() => {
     <RouterView />
     <footer class="fixed bottom-0 left-0 block w-full flex items-end justify-between px-4">
       <ul class="nav-links">
-        <router-link v-for="value, key, idx in jobs" :key="idx" class="nav-link" :to="`/${value?.no}`" :class="[key, key !== 'current' ? 'opacity-25' : '']">
+        <router-link v-for="value, key, idx in jobs" :key="idx" class="nav-link font-fira" :to="`/${value?.no}`" :class="[key, key !== 'current' ? 'opacity-25' : '']">
           <span class="font-semibold">
             {{ value?.name }}
           </span>
@@ -87,7 +87,7 @@ const jobs = computed(() => {
         </Note>
       </div>
       <p>
-        {{ currentWork.no }}
+        {{ currentWork.createdAt }}
       </p>
     </footer>
   </div>
@@ -132,7 +132,7 @@ const jobs = computed(() => {
     margin-right:10px;
 
       & > span:first-child {
-        font-weight: 800;
+        font-weight: 700;
         font-size: 14px;
       }
 
