@@ -11,7 +11,7 @@ const info: Work[] = [
   {
     name: 'Plum',
     createdAt: '27/04',
-    description: 'Plum was done by Anthony Fu, I liked the idea and  i thought to implement it',
+    description: 'Plum was done by Anthony Fu, I liked the idea and  i thought to implement it Excepteur ullamco id ex consectetur qui voluptate in ipsum esse id in. Irure aliqua veniam cupidatat non aliquip sint adipisicing deserunt cupidatat nostrud aute quis dolor exercitation. Exercitation anim qui non dolore aliquip Lorem occaecat. Ea pariatur eu amet ullamco reprehenderit adipisicing. Eiusmod amet aliquip laboris qui qui. Ex incididunt fugiat excepteur officia excepteur amet officia esse aute reprehenderit. Irure qui eiusmod cillum dolore ut enim amet eiusmod consequat laboris consequat in ex qui.',
     source: 'https://github.com/antfu/plum-demo',
   },
   {
@@ -19,7 +19,7 @@ const info: Work[] = [
     createdAt: '27/04',
   },
   {
-    name: 'Pj 3',
+    name: 'Snake',
     createdAt: '27/04',
   },
   {
