@@ -109,7 +109,7 @@ onClickOutside(noteBoxRef, (event) => {
   background: white;
   left: 50%;
   transform: translate(-50%, 110%);
-  transition: all .3s ease-in-out 0s;
+  transition: all .1s ease-in-out 0s;
   padding: 16px 28px;
 }
 
@@ -127,7 +127,7 @@ onClickOutside(noteBoxRef, (event) => {
   height: 100%;
   transition: none;
   opacity: 1;
-  animation: noteFadeIn .3s cubic-bezier(.23,1,.32,1);
+  animation: noteFadeIn .5s cubic-bezier(.23,1,.32,1);
 }
 
 @keyframes noteFadeIn {
